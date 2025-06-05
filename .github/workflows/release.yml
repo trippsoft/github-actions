@@ -22,6 +22,7 @@ jobs:
         with:
           path: ${{ inputs.working_directory }}
       - name: Release
+        working-directory: '${{ inputs.working_directory }}'
         run: |
           source ~/venv/ansible-2.16/bin/activate
           ansible-galaxy collection build --force

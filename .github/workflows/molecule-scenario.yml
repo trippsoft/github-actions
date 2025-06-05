@@ -28,6 +28,7 @@ jobs:
         with:
           path: ${{ inputs.working_directory }}
       - name: Run Molecule tests
+        working-directory: '${{ inputs.working_directory }}'
         run: |
           source ~/venv/ansible-2.16/bin/activate
           cd ./roles/${{ inputs.role_name }}
