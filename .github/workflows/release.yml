@@ -9,9 +9,6 @@ name: Release collection
     secrets:
       GALAXY_API_KEY:
         required: true
-defaults:
-  run:
-    working-directory: ${{ inputs.working_directory }}
 jobs:
   release:
     name: Release collection

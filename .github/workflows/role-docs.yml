@@ -1,5 +1,4 @@
 ---
----
 name: Generate Role Docs
 'on':
   workflow_call:
@@ -10,9 +9,6 @@ name: Generate Role Docs
       role_name:
         required: true
         type: string
-defaults:
-  run:
-    working-directory: ${{ inputs.working_directory }}
 jobs:
   docs:
     name: Generate ${{ inputs.role_name }} role documentation
