@@ -1,0 +1,33 @@
+---
+name: Release collection
+'on':
+  workflow_call:
+    inputs:
+      working_directory:
+        required: true
+        type: string
+    secrets:
+      GALAXY_API_KEY:
+        required: true
+defaults:
+  run:
+    working-directory: ${{ inputs.working_directory }}
+jobs:
+  release:
+    name: Release collection
+    runs-on:
+      - self-hosted
+      - linux
+      - x64
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          path: ${{ inputs.working_directory }}
+      - name: Release
+        run: |
+          source ~/venv/ansible-2.16/bin/activate
+          ansible-galaxy collection build --force
+          ansible-galaxy collection publish --token "${{ secrets.GALAXY_API_KEY }}" *.tar.gz
+          rm -rf *.tar.gz
+          deactivate
