@@ -1,0 +1,47 @@
+---
+name: Molecule with Scenario
+'on':
+  workflow_call:
+    inputs:
+      working_directory:
+        required: true
+        type: string
+      role_name:
+        required: true
+        type: string
+      scenario_name:
+        required: true
+        type: string
+      box:
+        required: true
+        type: string
+      fail_fast:
+        required: false
+        type: boolean
+        default: false
+defaults:
+  run:
+    working-directory: ${{ inputs.working_directory }}
+jobs:
+  molecule:
+    name: Run Molecule tests - ${{ inputs.role_name }}
+    runs-on:
+      - self-hosted
+      - linux
+      - x64
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          path: ${{ inputs.working_directory }}
+      - name: Run Molecule tests
+        fail_fast: ${{ inputs.fail_fast }}
+        run: |
+          source ~/venv/ansible-2.16/bin/activate
+          cd ./roles/${{ inputs.role_name }}
+          molecule test -s ${{ inputs.scenario_name }}
+          deactivate
+        env:
+          PY_COLORS: '1'
+          ANSIBLE_FORCE_COLOR: '1'
+          MOLECULE_BOX: ${{ inputs.box }}

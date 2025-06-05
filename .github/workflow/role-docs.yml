@@ -1,0 +1,40 @@
+---
+---
+name: Generate Role Docs
+'on':
+  workflow_call:
+    inputs:
+      working_directory:
+        required: true
+        type: string
+      role_name:
+        required: true
+        type: string
+defaults:
+  run:
+    working-directory: ${{ inputs.working_directory }}
+jobs:
+  docs:
+    name: Generate ${{ inputs.role_name }} role documentation
+    permissions:
+      contents: write
+    runs-on:
+      - self-hosted
+      - linux
+      - x64
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          path: ${{ inputs.working_directory }}
+      - name: Generate test role documentation
+        run: |
+          source ~/venv/ansible-2.16/bin/activate
+          cd ./roles/${{ inputs.role_name }}
+          aar-doc . markdown
+          git config user.name "GitHub Actions"
+          git config user.email "github-actions@github.com"
+          git add README.md || /bin/true
+          git commit -m "Update ${{ inputs.role_name }} role documentation." || /bin/true
+          git push origin main
+          deactivate
