@@ -35,6 +35,7 @@ jobs:
           molecule test -s ${{ inputs.scenario_name }}
           deactivate
         env:
-          PY_COLORS: '1'
+          ANSIBLE_COLLECTIONS_PATH: ${{ github.workspace }}/${{ inputs.working_directory }}/collections:/usr/share/ansible/collections
           ANSIBLE_FORCE_COLOR: '1'
+          PY_COLORS: '1'
           MOLECULE_BOX: ${{ inputs.box }}
