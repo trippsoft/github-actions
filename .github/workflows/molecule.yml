@@ -28,13 +28,13 @@ jobs:
         working-directory: '${{ inputs.working_directory }}'
         run: |
           source ~/venv/ansible-2.16/bin/activate
-          mkdir -p ${{ github.workspace }}/collections/ansible_collections
+          mkdir -p ${{ github.workspace }}/ansible
           cd ./roles/${{ inputs.role_name }}
           molecule test
-          rm -rf ${{ github.workspace }}/collections/ansible_collections/*
+          rm -rf ${{ github.workspace }}/ansible
           deactivate
         env:
-          ANSIBLE_COLLECTIONS_PATH: ${{ github.workspace }}/collections:/usr/share/ansible/collections
           ANSIBLE_FORCE_COLOR: '1'
+          ANSIBLE_HOME: ${{ github.workspace }}/ansible
           PY_COLORS: '1'
           MOLECULE_BOX: ${{ inputs.box }}
