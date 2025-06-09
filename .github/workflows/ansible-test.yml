@@ -24,6 +24,6 @@ jobs:
       - name: Run Molecule tests
         working-directory: '${{ inputs.working_directory }}'
         run: |
-          source ~/venv/ansible-test-${{ inputs.ansible_version }}-2.16/bin/activate
+          source ~/venv/ansible-test-${{ inputs.ansible_version }}/bin/activate
           ansible-test sanity -v --docker
           deactivate
