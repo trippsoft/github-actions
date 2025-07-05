@@ -1,0 +1,43 @@
+---
+name: Run uname test
+'on':
+  workflow_dispatch: {}
+jobs:
+  uname_test:
+    runs-on:
+      - ${{ matrix.host }}
+    strategy:
+      fail-fast: false
+      matrix:
+        host:
+          - ubuntu-latest
+          - ubuntu-24.04-arm
+          - macos-latest
+          - macos-13
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Run uname command
+        run: |
+          echo "Running uname command..."
+          uname -sm
+
+  ver_test:
+    runs-on:
+        - ${{ matrix.host }}
+    strategy:
+      fail-fast: false
+      matrix:
+        host:
+          - windows-latest
+          - windows-11-arm
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Display Windows version
+        run: |
+          echo "Windows Version:"
+          ver
+        shell: cmd
